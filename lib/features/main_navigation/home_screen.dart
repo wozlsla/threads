@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Gaps.v16,
                             Divider(
                               height: 0,
-                              thickness: 1,
+                              thickness: 0.3,
                             ),
                             Gaps.v16,
                           ],
@@ -87,7 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     );
                   },
-                  childCount: 10,
+                  childCount: 6,
+                  // childCount: 10,
                 ),
               ),
             ],

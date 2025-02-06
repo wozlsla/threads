@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../constants/theme/theme.dart';
-import '../../../utils.dart';
+import '../../../core/utils.dart';
 import 'image_carousel.dart';
 
 class Thread extends StatelessWidget {
@@ -20,8 +20,10 @@ class Thread extends StatelessWidget {
     final random = RandomGenerator(seed: DateTime.now().millisecondsSinceEpoch);
     final since = random.integer(60);
 
-    final hasImage = random.integer(3) != 0;
-    final images = List.generate(5, (index) => getImage());
+    final imgLength = random.integer(3) + 1;
+    final hasImage = random.integer(3) == 0;
+
+    final images = List.generate(imgLength, (index) => getImage());
 
     return IntrinsicHeight(
       child: Row(
