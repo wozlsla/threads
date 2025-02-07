@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 import '../../../constants/theme/theme.dart';
+import 'drag_handle.dart';
 import 'report_bottom_sheet.dart';
 
 class ThreadOptionsBottomSheet extends StatelessWidget {
   const ThreadOptionsBottomSheet({super.key});
 
-  void _onReportTap(BuildContext context) async {
-    await showModalBottomSheet(
+  void _onReportTap(BuildContext context) {
+    Navigator.pop(context);
+    showModalBottomSheet(
       context: context,
-      barrierColor: Colors.transparent,
+      // barrierColor: Colors.transparent, // 없으면 더 어두워짐 -> pop
       builder: (context) => ReportBottomSheet(),
     );
   }
@@ -19,92 +20,84 @@ class ThreadOptionsBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Sizes.size10),
+        color: AppColors.primaryBackground,
       ),
-      child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 30,
+      child: Column(
+        children: [
+          DragHandle(),
+          Container(
+            margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Sizes.size10),
+              color: AppColors.charcoaleIcon.withValues(alpha: 0.2),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListTile(
+                  title: Text(
+                    "Unfollow",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Divider(
+                  color: AppColors.secondaryIcon,
+                  height: 0,
+                  thickness: 0.2,
+                ),
+                ListTile(
+                  title: Text(
+                    "Mute",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: Sizes.size20,
-                  horizontal: Sizes.size20,
+          Container(
+            margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Sizes.size10),
+              color: AppColors.charcoaleIcon.withValues(alpha: 0.2),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListTile(
+                  title: Text(
+                    "Hide",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Sizes.size10),
-                  color: AppColors.secondaryBackground,
+                Divider(
+                  color: AppColors.secondaryIcon,
+                  height: 0,
+                  thickness: 0.2,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Unfollow",
+                GestureDetector(
+                  onTap: () => _onReportTap(context),
+                  child: ListTile(
+                    title: Text(
+                      "Report",
                       style: TextStyle(
+                        color: Colors.red,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Gaps.v10,
-                    Divider(
-                      color: AppColors.secondaryIcon,
-                      thickness: 0.2,
-                    ),
-                    Gaps.v10,
-                    Text(
-                      "Mute",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              Gaps.v20,
-              Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: Sizes.size20,
-                  horizontal: Sizes.size20,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Sizes.size10),
-                  color: AppColors.secondaryBackground,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Hide",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Gaps.v10,
-                    Divider(
-                      color: AppColors.secondaryIcon,
-                      thickness: 0.2,
-                    ),
-                    Gaps.v10,
-                    GestureDetector(
-                      onTap: () => _onReportTap(context),
-                      child: Text(
-                        "Report",
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

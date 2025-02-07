@@ -12,8 +12,8 @@ import 'thread_options_bottom_sheet.dart';
 class Thread extends StatelessWidget {
   const Thread({super.key});
 
-  void _onOptionsTap(BuildContext context) async {
-    await showModalBottomSheet(
+  void _onOptionsTap(BuildContext context) {
+    showModalBottomSheet(
       context: context,
       // barrierColor: Colors.transparent,
       builder: (context) => SizedBox(
