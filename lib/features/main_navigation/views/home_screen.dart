@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../constants/gaps.dart';
-import '../../constants/theme/theme.dart';
-import 'widgets/thread.dart';
+import '../../../constants/gaps.dart';
+import '../../../constants/theme/theme.dart';
+import '../widgets/thread.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -54,19 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              // 고정 상단 바
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: _SliverAppBarDelegate(
-                  minHeight: 54,
-                  maxHeight: 54,
-                  child: Container(
-                    color: AppColors.primaryBackground,
-                    alignment: Alignment.center,
-                  ),
-                ),
-              ),
-
               // 리스트 아이템
               SliverList(
                 delegate: SliverChildBuilderDelegate(
@@ -96,40 +83,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-  }
-}
-
-// SliverPersistentHeaderDelegate 구현 // 이거 잘 이해 안됨
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
-
-  _SliverAppBarDelegate({
-    required this.minHeight,
-    required this.maxHeight,
-    required this.child,
-  });
-
-  @override
-  double get minExtent => minHeight;
-
-  @override
-  double get maxExtent => maxHeight;
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return SizedBox.expand(child: child);
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight ||
-        minHeight != oldDelegate.minHeight ||
-        child != oldDelegate.child;
   }
 }

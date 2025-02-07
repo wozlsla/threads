@@ -7,9 +7,21 @@ import '../../../constants/gaps.dart';
 import '../../../constants/theme/theme.dart';
 import '../../../core/utils.dart';
 import 'image_carousel.dart';
+import 'thread_options_bottom_sheet.dart';
 
 class Thread extends StatelessWidget {
   const Thread({super.key});
+
+  void _onOptionsTap(BuildContext context) async {
+    await showModalBottomSheet(
+      context: context,
+      // barrierColor: Colors.transparent,
+      builder: (context) => SizedBox(
+        height: MediaQuery.of(context).size.height * 0.4,
+        child: ThreadOptionsBottomSheet(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +94,12 @@ class Thread extends StatelessWidget {
                           ),
                         ),
                         Gaps.h12,
-                        const Icon(
-                          FontAwesomeIcons.ellipsis,
-                          size: 16,
+                        GestureDetector(
+                          onTap: () => _onOptionsTap(context),
+                          child: const Icon(
+                            FontAwesomeIcons.ellipsis,
+                            size: 16,
+                          ),
                         )
                       ],
                     )
