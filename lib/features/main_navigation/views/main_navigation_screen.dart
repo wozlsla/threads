@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:threads/features/main_navigation/views/write_screen.dart';
+import '../../../constants/theme/theme.dart';
 
-import '../../constants/theme/theme.dart';
-import 'widgets/nav_tab.dart';
-import 'views/home_screen.dart';
-import 'views/search_screen.dart';
+import '../widgets/nav_tab.dart';
+import 'home_screen.dart';
+import 'write_screen.dart';
+import '../../search/search_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -15,7 +15,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   void _onTap(int index) {
     setState(() {
@@ -51,6 +51,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               offstage: _selectedIndex != 1,
               child: SearchScreen(),
             ),
+
             /* other screens */
           ],
         ),
