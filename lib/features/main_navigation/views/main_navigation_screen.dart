@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:threads/features/users/user_profile_screen.dart';
 import '../../../constants/theme/theme.dart';
 
+import '../../activity/activity_screen.dart';
 import '../widgets/nav_tab.dart';
 import 'home_screen.dart';
 import 'write_screen.dart';
@@ -15,7 +17,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 4;
 
   void _onTap(int index) {
     setState(() {
@@ -51,8 +53,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               offstage: _selectedIndex != 1,
               child: SearchScreen(),
             ),
-
-            /* other screens */
+            Offstage(
+              offstage: _selectedIndex != 3,
+              child: ActivityScreen(),
+            ),
+            Offstage(
+              offstage: _selectedIndex != 4,
+              child: UserProfileScreen(),
+            ),
           ],
         ),
       ),
