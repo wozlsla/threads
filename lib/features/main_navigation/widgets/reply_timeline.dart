@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../constants/sizes.dart';
+import '../../../constants/theme/theme.dart';
 import '../../../core/utils.dart';
 
 import 'reply_circle_avartars.dart';
@@ -54,7 +55,7 @@ class ReplyTimeline extends StatelessWidget {
                 child: VerticalDivider(
                   width: Sizes.size32,
                   thickness: 1,
-                  color: Colors.grey.shade500,
+                  color: AppColors.charcoaleIcon,
                   indent: 10,
                 ),
               )

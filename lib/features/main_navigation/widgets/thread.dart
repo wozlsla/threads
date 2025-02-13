@@ -41,6 +41,8 @@ class Thread extends StatelessWidget {
     final replies = random.integer(4);
     final repliers = List.generate(replies, (index) => getImage());
 
+    final bool isVerified = random.integer(3) != 0;
+
     return IntrinsicHeight(
       child: Row(
         // mainAxisSize: MainAxisSize.max,
@@ -71,11 +73,13 @@ class Thread extends StatelessWidget {
                             ),
                           ),
                           Gaps.h5,
-                          SvgPicture.asset(
-                            "assets/icons/verified_badge.svg",
-                            width: 15,
-                            height: 15,
-                          ),
+                          isVerified
+                              ? SvgPicture.asset(
+                                  "assets/icons/verified_badge.svg",
+                                  width: 15,
+                                  height: 15,
+                                )
+                              : SizedBox.shrink(),
                         ],
                       ),
                     ),

@@ -130,8 +130,7 @@ class UserProfileScreen extends StatelessWidget {
                           CircleAvatar(
                             radius: 35,
                             foregroundColor: Colors.teal,
-                            foregroundImage: NetworkImage(
-                                "https://avatars.githubusercontent.com/u/62599036?v=4"),
+                            foregroundImage: NetworkImage(profileImage),
                             child: Text("jimnny"),
                           ),
                         ],

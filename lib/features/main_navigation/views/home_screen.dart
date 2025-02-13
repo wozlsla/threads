@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -15,19 +17,19 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
 
-  void _onScroll() {}
+  // void _onScroll() {}
 
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_onScroll);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _scrollController.addListener(_onScroll);
+  // }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _scrollController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +37,22 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           CustomScrollView(
-            controller: _scrollController,
+            // controller: _scrollController,
             slivers: [
               // 스크롤에 반응
               SliverAppBar(
                 elevation: 0,
+                // toolbarHeight: 80, // 56 + 14 -> bottom
                 backgroundColor: AppColors.primaryBackground,
                 // backgroundColor: AppColors.charcoaleIcon, // 확인용
                 title: SvgPicture.asset(
                   "assets/icons/logo.svg",
                   width: 40,
                   height: 40,
+                ),
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(14),
+                  child: SizedBox(),
                 ),
               ),
 
@@ -57,7 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Column(
                           children: const [
-                            Thread(),
+                            Padding(
+                              padding: EdgeInsets.only(right: 8),
+                              child: Thread(),
+                            ),
                             Gaps.v16,
                             Divider(
                               height: 0,
