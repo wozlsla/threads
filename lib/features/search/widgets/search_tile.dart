@@ -71,7 +71,7 @@ class _SearchTileState extends State<SearchTile> {
           Gaps.h4,
           isVerified
               ? SvgPicture.asset(
-                  "assets/icons/verified.svg",
+                  "assets/icons/verified_badge.svg",
                   width: 15,
                   height: 15,
                 )

@@ -40,17 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
               // 스크롤에 반응
               SliverAppBar(
                 elevation: 0,
-                expandedHeight: 56, // fixed
                 backgroundColor: AppColors.primaryBackground,
                 // backgroundColor: AppColors.charcoaleIcon, // 확인용
                 title: SvgPicture.asset(
-                  'assets/icons/logo.svg',
+                  "assets/icons/logo.svg",
                   width: 40,
                   height: 40,
-                  colorFilter: ColorFilter.mode(
-                    AppColors.primaryIcon,
-                    BlendMode.srcIn,
-                  ),
                 ),
               ),
 

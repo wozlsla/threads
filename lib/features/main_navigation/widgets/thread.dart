@@ -1,5 +1,5 @@
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -8,6 +8,7 @@ import '../../../constants/theme/theme.dart';
 import '../../../core/utils.dart';
 import 'image_carousel.dart';
 import 'thread_options_bottom_sheet.dart';
+import 'reply_timeline.dart';
 
 class Thread extends StatelessWidget {
   const Thread({super.key});
@@ -37,11 +38,22 @@ class Thread extends StatelessWidget {
 
     final images = List.generate(imgLength, (index) => getImage());
 
+    final replies = random.integer(4);
+    final repliers = List.generate(replies, (index) => getImage());
+
     return IntrinsicHeight(
       child: Row(
         // mainAxisSize: MainAxisSize.max,
         children: [
           Expanded(
+            flex: 1,
+            child: ReplyTimeline(
+              replies: replies,
+              repliers: repliers,
+            ),
+          ),
+          Expanded(
+            flex: 5,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -60,27 +72,10 @@ class Thread extends StatelessWidget {
                             ),
                           ),
                           Gaps.h5,
-                          Stack(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/icons/verified.svg',
-                                width: 15,
-                                height: 15,
-                                colorFilter: ColorFilter.mode(
-                                  AppColors.verifiedBadge,
-                                  BlendMode.srcIn,
-                                ),
-                              ),
-                              SvgPicture.asset(
-                                'assets/icons/check.svg',
-                                width: 15,
-                                height: 15,
-                                colorFilter: ColorFilter.mode(
-                                  AppColors.primaryBackground,
-                                  BlendMode.srcIn,
-                                ),
-                              ),
-                            ],
+                          SvgPicture.asset(
+                            "assets/icons/verified_badge.svg",
+                            width: 15,
+                            height: 15,
                           ),
                         ],
                       ),
