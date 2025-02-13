@@ -48,7 +48,6 @@ class Thread extends StatelessWidget {
           Expanded(
             flex: 1,
             child: ReplyTimeline(
-              replies: replies,
               repliers: repliers,
             ),
           ),

@@ -3,13 +3,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../constants/sizes.dart';
 import '../../../core/utils.dart';
 
+import 'reply_circle_avartars.dart';
+
 class ReplyTimeline extends StatelessWidget {
-  final int replies;
   final List<String> repliers;
 
   const ReplyTimeline({
     super.key,
-    required this.replies,
     required this.repliers,
   });
 
@@ -49,7 +49,7 @@ class ReplyTimeline extends StatelessWidget {
             ),
           ],
         ), //
-        replies > 0
+        repliers.isNotEmpty
             ? Expanded(
                 child: VerticalDivider(
                   width: Sizes.size32,
@@ -59,6 +59,24 @@ class ReplyTimeline extends StatelessWidget {
                 ),
               )
             : Container(),
+        CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 24,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              for (int i = 0; i < repliers.length && i < 3; i++)
+                ReplyCircleAvatars(
+                  index: i,
+                  length: repliers.length,
+                  child: CircleAvatar(
+                    foregroundImage: NetworkImage(repliers[i]),
+                    radius: repliers.length >= 3 ? (i + 2) * 3 : 12,
+                  ),
+                )
+            ],
+          ),
+        )
       ],
     );
   }
