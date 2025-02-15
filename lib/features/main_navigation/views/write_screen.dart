@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:threads/core/utils.dart';
-
+import '../../../core/utils.dart';
 import '../../../constants/sizes.dart';
 import '../../../constants/theme/theme.dart';
+
+import '../../camera/camera_screen.dart';
 
 class WriteScreen extends StatefulWidget {
   const WriteScreen({super.key});
@@ -15,7 +18,8 @@ class WriteScreen extends StatefulWidget {
 class _WriteScreenState extends State<WriteScreen> {
   final TextEditingController _textEditingController = TextEditingController();
   String _isText = "";
-  // final profile = getImage();
+  List<String> images = [];
+  final bool isPicked = false;
 
   void _onTap() {
     Navigator.of(context).pop();
@@ -23,6 +27,18 @@ class _WriteScreenState extends State<WriteScreen> {
 
   void _onScaffoldTap() {
     FocusScope.of(context).unfocus();
+  }
+
+  Future<void> _onClipTap() async {
+    final imagePath = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => CameraScreen(),
+      ),
+    );
+
+    if (imagePath != null) images.add(imagePath);
+
+    setState(() {});
   }
 
   @override
@@ -84,7 +100,7 @@ class _WriteScreenState extends State<WriteScreen> {
         body: IntrinsicHeight(
           child: Padding(
             padding: const EdgeInsets.only(
-              top: 10,
+              top: 16,
               // bottom: 56,
             ),
             child: Row(
@@ -122,12 +138,25 @@ class _WriteScreenState extends State<WriteScreen> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Jimnny",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Jimnny",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: _onTap,
+                              icon: FaIcon(
+                                FontAwesomeIcons.x,
+                                size: 16,
+                                color: AppColors.charcoaleIcon,
+                              ),
+                            )
+                          ],
                         ),
                         TextField(
                           controller: _textEditingController,
@@ -144,8 +173,28 @@ class _WriteScreenState extends State<WriteScreen> {
                             border: InputBorder.none, // 언더라인 제거
                           ),
                         ),
+                        images.isNotEmpty
+                            ? Container(
+                                height: 200,
+                                width: 300,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: AppColors.secondaryIcon, // 테두리
+                                    width: 0.2,
+                                  ),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.file(
+                                    File(images[0]),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              )
+                            : SizedBox.shrink(),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: _onClipTap,
                           icon: FaIcon(
                             FontAwesomeIcons.paperclip,
                             color: AppColors.charcoaleIcon,
