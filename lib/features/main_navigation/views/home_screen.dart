@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:threads/core/utils.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../constants/theme/theme.dart';
@@ -15,40 +14,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ScrollController _scrollController = ScrollController();
-
-  // void _onScroll() {}
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _scrollController.addListener(_onScroll);
-  // }
-
-  // @override
-  // void dispose() {
-  //   _scrollController.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return Scaffold(
       body: Stack(
         children: [
           CustomScrollView(
-            // controller: _scrollController,
             slivers: [
               // 스크롤에 반응
               SliverAppBar(
                 elevation: 0,
-                // toolbarHeight: 80, // 56 + 14 -> bottom
-                backgroundColor: AppColors.primaryBackground,
-                // backgroundColor: AppColors.charcoaleIcon, // 확인용
                 title: SvgPicture.asset(
                   "assets/icons/logo.svg",
                   width: 40,
                   height: 40,
+                  colorFilter: ColorFilter.mode(
+                    isDark ? AppColors.primaryBackground : Colors.black,
+                    BlendMode.srcIn,
+                  ),
                 ),
                 bottom: PreferredSize(
                   preferredSize: Size.fromHeight(14),

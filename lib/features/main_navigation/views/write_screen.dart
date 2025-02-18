@@ -67,12 +67,12 @@ class _WriteScreenState extends State<WriteScreen> {
           toolbarHeight: kToolbarHeight + 8, // 기본 높이 + bottom 높이
           leadingWidth: 80,
           scrolledUnderElevation: 0,
-          backgroundColor: AppColors.primaryBackground,
+          backgroundColor: Colors.grey.shade900,
           leading: TextButton(
             onPressed: _onTap,
             style: TextButton.styleFrom(
               padding: EdgeInsets.only(left: 20.0),
-              foregroundColor: Colors.black,
+              // foregroundColor: Colors.black,
             ),
             child: Text(
               "Cancle",
@@ -208,9 +208,6 @@ class _WriteScreenState extends State<WriteScreen> {
           ),
         ),
         bottomSheet: BottomAppBar(
-          elevation: 0,
-          color: AppColors.primaryBackground,
-          // padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

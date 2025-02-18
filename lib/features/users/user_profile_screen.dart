@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/utils.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
-import '../../constants/theme/theme.dart';
 
 import '../settings/settings_screen.dart';
 import 'widgets/persistent_tab_bar.dart';
@@ -22,7 +21,7 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double iconSize = Sizes.size28;
-
+    final isDark = isDarkMode(context);
     return SafeArea(
       child: DefaultTabController(
         length: 2,
@@ -34,9 +33,6 @@ class UserProfileScreen extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
-                // expandedHeight: 176,
-                // toolbarHeight: kToolbarHeight - 10,
-                backgroundColor: AppColors.primaryBackground,
                 actions: [
                   SizedBox(
                     // width: double.infinity,
@@ -110,7 +106,9 @@ class UserProfileScreen extends StatelessWidget {
                                       vertical: 5,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: Colors.grey.shade100,
+                                      color: isDark
+                                          ? Colors.grey.shade900
+                                          : Colors.grey.shade100,
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     child: Text(
@@ -165,15 +163,11 @@ class UserProfileScreen extends StatelessWidget {
                             child: OutlinedButton(
                               onPressed: () {},
                               style: OutlinedButton.styleFrom(
-                                  side: BorderSide(
-                                    color: AppColors.charcoaleIcon,
-                                  ),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  )),
+                                borderRadius: BorderRadius.circular(8),
+                              )),
                               child: Text(
                                 "Edit profile",
-                                style: TextStyle(color: Colors.black),
                               ),
                             ),
                           ),
@@ -182,15 +176,11 @@ class UserProfileScreen extends StatelessWidget {
                             child: OutlinedButton(
                               onPressed: () {},
                               style: OutlinedButton.styleFrom(
-                                  side: BorderSide(
-                                    color: AppColors.charcoaleIcon,
-                                  ),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  )),
+                                borderRadius: BorderRadius.circular(8),
+                              )),
                               child: Text(
                                 "Share profile",
-                                style: TextStyle(color: Colors.black),
                               ),
                             ),
                           ),

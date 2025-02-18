@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../constants/theme/theme.dart';
 
 class PersistentTabBar extends SliverPersistentHeaderDelegate {
   @override
@@ -7,14 +6,11 @@ class PersistentTabBar extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       decoration: BoxDecoration(
-        // color: Colors.teal,
-        color: AppColors.primaryBackground,
-      ),
+          // color: Colors.teal,
+          // color: AppColors.primaryBackground,
+          ),
       child: TabBar(
         indicatorSize: TabBarIndicatorSize.tab, // ?!
-        indicatorColor: Colors.black,
-        labelColor: Colors.black,
-        unselectedLabelColor: Colors.grey.shade500,
         tabs: [
           Center(
               child: Text(

@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:threads/core/utils.dart';
 import '../../constants/theme/theme.dart';
 
 import 'privacy_screen.dart';
@@ -11,6 +12,8 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
+
     final List<Map<String, dynamic>> items = [
       {"icon": Icons.person_add_outlined, "text": "Follow and invite friends"},
       {"icon": Icons.notifications_none, "text": "Notifications"},
@@ -32,13 +35,11 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0.1, // 어떨때 선 나오고 어떨땐 안됨?
         shadowColor: Colors.grey.shade300,
-        surfaceTintColor: Colors.transparent,
-        backgroundColor: AppColors.primaryBackground,
         leadingWidth: 98,
         leading: TextButton.icon(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.black,
+            color: isDark ? Colors.white : Colors.black,
           ),
           label: Text(
             "Back",
@@ -47,10 +48,6 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           onPressed: () => Navigator.of(context).pop(),
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            foregroundColor: Colors.black,
-          ),
         ),
         title: Text(
           "Settings",

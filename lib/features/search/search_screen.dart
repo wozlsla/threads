@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:threads/core/utils.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
-import '../../constants/theme/theme.dart';
 
 import '../../models/user_model.dart';
 import '../../services/user_serviece.dart';
@@ -21,12 +21,12 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         scrolledUnderElevation: 0,
         toolbarHeight: kToolbarHeight + 35,
-        backgroundColor: AppColors.primaryBackground,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -39,18 +39,19 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             Gaps.v12,
             CupertinoSearchTextField(
-                // decoration: BoxDecoration(
-                //   color: Colors.grey.shade200,
-                //   borderRadius: const BorderRadius.all(
-                //     Radius.circular(10),
-                //   ),
-                // ),
-                // prefixIcon: const Icon(
-                //   Icons.search,
-                //   color: Colors.grey,
-                // ),
-                // placeholder: "Search",
-                ),
+              style: TextStyle(color: isDark ? Colors.white : Colors.black),
+              // decoration: BoxDecoration(
+              //   color: Colors.grey.shade200,
+              //   borderRadius: const BorderRadius.all(
+              //     Radius.circular(10),
+              //   ),
+              // ),
+              // prefixIcon: const Icon(
+              //   Icons.search,
+              //   color: Colors.grey,
+              // ),
+              // placeholder: "Search",
+            ),
           ],
         ),
       ),

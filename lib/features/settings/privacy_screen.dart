@@ -32,8 +32,6 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
       appBar: AppBar(
         elevation: 0.1,
         shadowColor: Colors.grey.shade300,
-        surfaceTintColor: Colors.transparent,
-        backgroundColor: AppColors.primaryBackground,
         leadingWidth: 98,
         title: Text(
           "Privacy",

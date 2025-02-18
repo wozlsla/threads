@@ -5,6 +5,7 @@ import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 import '../../../constants/theme/theme.dart';
 
+import '../../../core/utils.dart';
 import '../../../models/user_model.dart';
 
 class SearchTile extends StatefulWidget {
@@ -39,6 +40,7 @@ class _SearchTileState extends State<SearchTile> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return ListTile(
       leading: Padding(
         padding: const EdgeInsets.only(bottom: 11), // 56 = 11 + 45
@@ -86,7 +88,7 @@ class _SearchTileState extends State<SearchTile> {
           Text(
             '${widget.user.followers}K followers',
             style: TextStyle(
-              color: Colors.black,
+              color: isDark ? Colors.white : Colors.black,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -95,15 +97,13 @@ class _SearchTileState extends State<SearchTile> {
       trailing: GestureDetector(
         onTap: _onTap,
         child: Container(
-          // padding: EdgeInsets.symmetric(
-          //   vertical: Sizes.size10,
-          //   horizontal: Sizes.size20,
-          // ),
           width: 80,
           height: 40,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: _following ? Colors.black : Colors.transparent,
+            color: _following
+                ? (isDark ? Colors.white : Colors.black)
+                : Colors.transparent,
             border: Border.all(
               color: AppColors.charcoaleIcon,
             ),
@@ -112,7 +112,9 @@ class _SearchTileState extends State<SearchTile> {
           child: Text(
             _following ? "Following" : "Follow",
             style: TextStyle(
-              color: _following ? Colors.white : Colors.black,
+              color: _following
+                  ? (isDark ? Colors.black : Colors.white)
+                  : (isDark ? Colors.white : Colors.black),
               fontWeight: FontWeight.bold,
             ),
           ),

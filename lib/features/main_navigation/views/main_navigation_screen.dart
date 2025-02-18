@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads/features/users/user_profile_screen.dart';
-import '../../../constants/theme/theme.dart';
 
 import '../../activity/activity_screen.dart';
 import '../widgets/nav_tab.dart';
@@ -17,7 +16,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 4;
+  int _selectedIndex = 0;
 
   void _onTap(int index) {
     setState(() {
@@ -65,7 +64,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: AppColors.primaryBackground,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
