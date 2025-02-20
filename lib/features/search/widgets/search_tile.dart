@@ -6,7 +6,7 @@ import '../../../constants/sizes.dart';
 import '../../../common/theme/theme.dart';
 
 import '../../../common/utils.dart';
-import '../../../models/user_model.dart';
+import '../models/user_model.dart';
 
 class SearchTile extends StatefulWidget {
   final UserModel user;

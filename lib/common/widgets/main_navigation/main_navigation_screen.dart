@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:threads/features/users/user_profile_screen.dart';
+import 'package:threads/features/users/views/user_profile_screen.dart';
 
-import '../../../features/activity/activity_screen.dart';
+import '../../../features/activity/views/activity_screen.dart';
 import 'nav_tab.dart';
-import '../../../features/home/home_screen.dart';
-import '../../../features/write/write_screen.dart';
-import '../../../features/search/search_screen.dart';
+import '../../../features/home/views/home_screen.dart';
+import '../../../features/write/views/write_screen.dart';
+import '../../../features/search/views/search_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   static const routeName = "mainNavigation";

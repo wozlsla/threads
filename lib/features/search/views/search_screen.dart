@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../common/utils.dart';
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
+import '../../../common/utils.dart';
+import '../../../constants/gaps.dart';
+import '../../../constants/sizes.dart';
 
-import '../../models/user_model.dart';
-import '../../services/user_serviece.dart';
+import '../models/user_model.dart';
+import '../services/user_serviece.dart';
 
-import 'widgets/search_tile.dart';
+import '../widgets/search_tile.dart';
 
 class SearchScreen extends StatefulWidget {
   static const routeName = "/search";

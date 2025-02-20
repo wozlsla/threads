@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../common/utils.dart';
-import '../../constants/sizes.dart';
-import '../../common/theme/theme.dart';
+import '../../../common/utils.dart';
+import '../../../constants/sizes.dart';
+import '../../../common/theme/theme.dart';
 
-import '../camera/camera_screen.dart';
+import '../../camera/camera_screen.dart';
 
 class WriteScreen extends StatefulWidget {
   const WriteScreen({super.key});
