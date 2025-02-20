@@ -1,15 +1,24 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:threads/features/users/user_profile_screen.dart';
 
+import '../../activity/activity_screen.dart';
 import '../widgets/nav_tab.dart';
+import 'home_screen.dart';
 import 'write_screen.dart';
+import '../../search/search_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
-  final Widget child;
+  static const routeName = "mainNavigation";
+
+  final String tab;
+
   const MainNavigationScreen({
     super.key,
-    required this.child,
+    required this.tab,
   });
 
   @override
@@ -17,27 +26,28 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  // final int _selectedIndex = 0;
+  final List<String> _tabs = [
+    "home",
+    "search",
+    "xxxx",
+    "inbox",
+    "profile",
+  ];
+
+  late int _selectedIndex = max(_tabs.indexOf(widget.tab), 0);
+
+  void _check() {
+    if (_selectedIndex != _tabs.indexOf(widget.tab)) {
+      _selectedIndex = max(_tabs.indexOf(widget.tab), 0);
+      setState(() {});
+    }
+  }
 
   void _onTap(int index) {
-    switch (index) {
-      case 0:
-        context.go("/");
-        break;
-      case 1:
-        context.go("/search");
-        break;
-      case 3:
-        context.go("/activity");
-        break;
-      case 4:
-        context.go("/profile");
-        break;
-    }
-
-    // setState(() {
-    //   _selectedIndex = index;
-    // });
+    context.go("/${_tabs[index]}");
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   void _onWriteTap(BuildContext context, int index) async {
@@ -56,52 +66,57 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final GoRouter router = GoRouter.of(context);
-    final String location = router.location; // 현재 url
-
-    int getSelectedIndex() {
-      switch (location) {
-        case "/":
-          return 0;
-        case "/search":
-          return 1;
-        case "/activity":
-          return 3;
-        case "/profile":
-          return 4;
-        default:
-          return 0;
-      }
-    }
+    _check();
 
     return Scaffold(
-      body: SafeArea(child: widget.child),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Offstage(
+              offstage: _selectedIndex != 0,
+              child: HomeScreen(),
+            ),
+            Offstage(
+              offstage: _selectedIndex != 1,
+              child: SearchScreen(),
+            ),
+            Offstage(
+              offstage: _selectedIndex != 3,
+              child: ActivityScreen(),
+            ),
+            Offstage(
+              offstage: _selectedIndex != 4,
+              child: UserProfileScreen(),
+            ),
+          ],
+        ),
+      ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             NavTab(
-              isSelected: getSelectedIndex() == 0,
+              isSelected: _selectedIndex == 0,
               icon: FontAwesomeIcons.house,
               onTap: () => _onTap(0),
             ),
             NavTab(
-              isSelected: getSelectedIndex() == 1,
+              isSelected: _selectedIndex == 1,
               icon: FontAwesomeIcons.magnifyingGlass,
               onTap: () => _onTap(1),
             ),
             NavTab(
-              isSelected: getSelectedIndex() == 2,
+              isSelected: _selectedIndex == 2,
               icon: FontAwesomeIcons.penToSquare,
               onTap: () => _onWriteTap(context, 2),
             ),
             NavTab(
-              isSelected: getSelectedIndex() == 3,
+              isSelected: _selectedIndex == 3,
               icon: FontAwesomeIcons.heart,
               onTap: () => _onTap(3),
             ),
             NavTab(
-              isSelected: getSelectedIndex() == 4,
+              isSelected: _selectedIndex == 4,
               icon: FontAwesomeIcons.user,
               onTap: () => _onTap(4),
             ),

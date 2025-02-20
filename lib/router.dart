@@ -11,28 +11,30 @@ final router = GoRouter(
   routerNeglect: true, // #(해시) 없이 url 사용
   initialLocation: "/",
   routes: [
-    ShellRoute(
-      builder: (context, state, child) {
-        return MainNavigationScreen(child: child);
+    GoRoute(
+      name: MainNavigationScreen.routeName,
+      path: "/:tab(home|search|inbox|profile)",
+      builder: (context, state) {
+        final tab = state.params["tab"]!;
+        return MainNavigationScreen(tab: tab);
       },
-      routes: [
-        GoRoute(
-          path: HomeScreen.routeName,
-          builder: (context, state) => HomeScreen(),
-        ),
-        GoRoute(
-          path: SearchScreen.routeName,
-          builder: (context, state) => SearchScreen(),
-        ),
-        GoRoute(
-          path: ActivityScreen.routeName,
-          builder: (context, state) => ActivityScreen(),
-        ),
-        GoRoute(
-            path: UserProfileScreen.routeName,
-            builder: (context, state) => UserProfileScreen(),
-            routes: []),
-      ],
+    ),
+    GoRoute(
+      name: HomeScreen.routeName,
+      path: HomeScreen.routeURL,
+      builder: (context, state) => HomeScreen(),
+    ),
+    GoRoute(
+      path: SearchScreen.routeName,
+      builder: (context, state) => SearchScreen(),
+    ),
+    GoRoute(
+      path: ActivityScreen.routeName,
+      builder: (context, state) => ActivityScreen(),
+    ),
+    GoRoute(
+      path: UserProfileScreen.routeName,
+      builder: (context, state) => UserProfileScreen(),
     ),
     GoRoute(
       path: SettingsScreen.routeName,
