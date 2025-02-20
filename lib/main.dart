@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:threads/router.dart';
 import 'constants/theme/theme.dart';
-
-import 'features/main_navigation/views/main_navigation_screen.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() {
+  usePathUrlStrategy();
   runApp(const TreadsApp());
 }
 
@@ -13,7 +14,8 @@ class TreadsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       title: "Treads Clone",
       themeMode: ThemeMode.system,
       theme: ThemeData(
@@ -99,7 +101,6 @@ class TreadsApp extends StatelessWidget {
           ),
         ),
       ),
-      home: MainNavigationScreen(),
     );
   }
 }

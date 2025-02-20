@@ -3,6 +3,8 @@ import '../../constants/gaps.dart';
 import '../../constants/theme/theme.dart';
 
 class PrivacyScreen extends StatefulWidget {
+  static const routeName = "privacy";
+
   const PrivacyScreen({super.key});
 
   @override

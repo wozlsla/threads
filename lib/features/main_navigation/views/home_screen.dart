@@ -7,6 +7,8 @@ import '../../../constants/theme/theme.dart';
 import '../widgets/thread.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const routeName = "/";
+
   const HomeScreen({super.key});
 
   @override

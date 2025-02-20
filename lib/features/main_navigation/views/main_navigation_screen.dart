@@ -1,27 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:threads/features/users/user_profile_screen.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../activity/activity_screen.dart';
 import '../widgets/nav_tab.dart';
-import 'home_screen.dart';
 import 'write_screen.dart';
-import '../../search/search_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key});
+  final Widget child;
+  const MainNavigationScreen({
+    super.key,
+    required this.child,
+  });
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 0;
+  // final int _selectedIndex = 0;
 
   void _onTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    switch (index) {
+      case 0:
+        context.go("/");
+        break;
+      case 1:
+        context.go("/search");
+        break;
+      case 3:
+        context.go("/activity");
+        break;
+      case 4:
+        context.go("/profile");
+        break;
+    }
+
+    // setState(() {
+    //   _selectedIndex = index;
+    // });
   }
 
   void _onWriteTap(BuildContext context, int index) async {
@@ -40,55 +56,52 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final GoRouter router = GoRouter.of(context);
+    final String location = router.location; // 현재 url
+
+    int getSelectedIndex() {
+      switch (location) {
+        case "/":
+          return 0;
+        case "/search":
+          return 1;
+        case "/activity":
+          return 3;
+        case "/profile":
+          return 4;
+        default:
+          return 0;
+      }
+    }
+
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Offstage(
-              offstage: _selectedIndex != 0,
-              child: HomeScreen(),
-            ),
-            Offstage(
-              offstage: _selectedIndex != 1,
-              child: SearchScreen(),
-            ),
-            Offstage(
-              offstage: _selectedIndex != 3,
-              child: ActivityScreen(),
-            ),
-            Offstage(
-              offstage: _selectedIndex != 4,
-              child: UserProfileScreen(),
-            ),
-          ],
-        ),
-      ),
+      body: SafeArea(child: widget.child),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             NavTab(
-              isSelected: _selectedIndex == 0,
+              isSelected: getSelectedIndex() == 0,
               icon: FontAwesomeIcons.house,
               onTap: () => _onTap(0),
             ),
             NavTab(
-              isSelected: _selectedIndex == 1,
+              isSelected: getSelectedIndex() == 1,
               icon: FontAwesomeIcons.magnifyingGlass,
               onTap: () => _onTap(1),
             ),
             NavTab(
-              isSelected: _selectedIndex == 2,
+              isSelected: getSelectedIndex() == 2,
               icon: FontAwesomeIcons.penToSquare,
               onTap: () => _onWriteTap(context, 2),
             ),
             NavTab(
-              isSelected: _selectedIndex == 3,
+              isSelected: getSelectedIndex() == 3,
               icon: FontAwesomeIcons.heart,
               onTap: () => _onTap(3),
             ),
             NavTab(
-              isSelected: _selectedIndex == 4,
+              isSelected: getSelectedIndex() == 4,
               icon: FontAwesomeIcons.user,
               onTap: () => _onTap(4),
             ),

@@ -10,6 +10,8 @@ import '../../services/user_serviece.dart';
 import 'widgets/search_tile.dart';
 
 class SearchScreen extends StatefulWidget {
+  static const routeName = "/search";
+
   const SearchScreen({super.key});
 
   @override

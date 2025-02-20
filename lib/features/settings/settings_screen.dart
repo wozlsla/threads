@@ -2,12 +2,15 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:threads/core/utils.dart';
 import '../../constants/theme/theme.dart';
 
 import 'privacy_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
+  static const routeName = "/settings";
+
   const SettingsScreen({super.key});
 
   @override
@@ -24,16 +27,12 @@ class SettingsScreen extends StatelessWidget {
     ];
 
     void _onPrivacyTab(BuildContext context) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => PrivacyScreen(),
-        ),
-      );
+      context.pushNamed(PrivacyScreen.routeName);
     }
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.1, // 어떨때 선 나오고 어떨땐 안됨?
+        elevation: 0.1, // 어떨때 선 나오고 어떨땐 안됨? : Material Design system ver 차이
         shadowColor: Colors.grey.shade300,
         leadingWidth: 98,
         leading: TextButton.icon(
