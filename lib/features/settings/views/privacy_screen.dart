@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../../../constants/gaps.dart';
 import '../../../common/theme/theme.dart';
+
+import '../view_models/theme_config_vm.dart';
 
 class PrivacyScreen extends StatefulWidget {
   static const routeName = "privacy";
@@ -45,6 +49,13 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
       body: Column(
         children: [
           SwitchListTile.adaptive(
+            value: context.watch<ThemeConfigViewModel>().darkMode,
+            onChanged: (value) =>
+                context.read<ThemeConfigViewModel>().setDarkMode(value),
+            title: Text("Dark Mode"),
+            subtitle: Text("no Dark Mode by default."),
+          ),
+          SwitchListTile.adaptive(
             value: _isPrivate,
             onChanged: _onPrivateChanged,
             title: Row(
@@ -53,11 +64,6 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                   _isPrivate ? Icons.lock : Icons.lock_open,
                   size: 24,
                 ),
-                // FaIcon(
-                //   _isPrivate
-                //       ? FontAwesomeIcons.lock
-                //       : FontAwesomeIcons.lockOpen,
-                // ),
                 Gaps.h12,
                 Text("Private profile"),
               ],

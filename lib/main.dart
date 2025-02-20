@@ -1,12 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:threads/common/utils.dart';
+
+import 'package:threads/features/settings/repos/theme_config_repo.dart';
+import 'package:threads/features/settings/view_models/theme_config_vm.dart';
 import 'package:threads/router.dart';
 import 'common/theme/theme.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // !!??
+
   usePathUrlStrategy();
-  runApp(const TreadsApp());
+
+  final preferences = await SharedPreferences.getInstance();
+  final repository =
+      ThemeConfigRepository(preferences); // initialize repository
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ThemeConfigViewModel(
+              repository), // initialize ThemeConfigViewModel
+        ),
+      ],
+      child: const TreadsApp(),
+    ),
+  );
 }
 
 class TreadsApp extends StatelessWidget {
@@ -17,7 +40,7 @@ class TreadsApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: router,
       title: "Treads Clone",
-      themeMode: ThemeMode.system,
+      themeMode: isDarkMode(context) ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.primaryBackground,
         textSelectionTheme: TextSelectionThemeData(

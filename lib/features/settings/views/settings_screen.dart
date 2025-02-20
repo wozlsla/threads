@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:threads/common/utils.dart';
+import '../../../common/utils.dart';
 import '../../../common/theme/theme.dart';
 
 import 'privacy_screen.dart';
