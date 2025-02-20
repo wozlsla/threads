@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:threads/core/utils.dart';
+import '../../common/utils.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 

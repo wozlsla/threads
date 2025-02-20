@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants/theme/theme.dart';
+import '../../../common/theme/theme.dart';
 
 class DragHandle extends StatelessWidget {
   const DragHandle({

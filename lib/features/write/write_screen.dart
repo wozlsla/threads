@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../core/utils.dart';
-import '../../../constants/sizes.dart';
-import '../../../constants/theme/theme.dart';
+import '../../common/utils.dart';
+import '../../constants/sizes.dart';
+import '../../common/theme/theme.dart';
 
-import '../../camera/camera_screen.dart';
+import '../camera/camera_screen.dart';
 
 class WriteScreen extends StatefulWidget {
   const WriteScreen({super.key});
@@ -60,6 +60,7 @@ class _WriteScreenState extends State<WriteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return GestureDetector(
       onTap: _onScaffoldTap,
       child: Scaffold(
@@ -67,7 +68,7 @@ class _WriteScreenState extends State<WriteScreen> {
           toolbarHeight: kToolbarHeight + 8, // 기본 높이 + bottom 높이
           leadingWidth: 80,
           scrolledUnderElevation: 0,
-          backgroundColor: Colors.grey.shade900,
+          backgroundColor: isDark ? Colors.grey.shade900 : null,
           leading: TextButton(
             onPressed: _onTap,
             style: TextButton.styleFrom(
@@ -148,14 +149,10 @@ class _WriteScreenState extends State<WriteScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            IconButton(
-                              onPressed: _onTap,
-                              icon: FaIcon(
-                                FontAwesomeIcons.x,
-                                size: 16,
-                                color: AppColors.charcoaleIcon,
-                              ),
-                            )
+                            Opacity(
+                              opacity: 0.4,
+                              child: CloseButton(),
+                            ),
                           ],
                         ),
                         TextField(

@@ -5,11 +5,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:threads/features/users/user_profile_screen.dart';
 
-import '../../activity/activity_screen.dart';
-import '../widgets/nav_tab.dart';
-import 'home_screen.dart';
-import 'write_screen.dart';
-import '../../search/search_screen.dart';
+import '../../../features/activity/activity_screen.dart';
+import 'nav_tab.dart';
+import '../../../features/home/home_screen.dart';
+import '../../../features/write/write_screen.dart';
+import '../../../features/search/search_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   static const routeName = "mainNavigation";

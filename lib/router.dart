@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:threads/features/activity/activity_screen.dart';
-import 'package:threads/features/main_navigation/views/home_screen.dart';
-import 'package:threads/features/main_navigation/views/main_navigation_screen.dart';
+import 'package:threads/features/home/home_screen.dart';
+import 'package:threads/common/widgets/main_navigation/main_navigation_screen.dart';
 import 'package:threads/features/search/search_screen.dart';
 import 'package:threads/features/settings/privacy_screen.dart';
 import 'package:threads/features/settings/settings_screen.dart';
@@ -9,7 +9,7 @@ import 'package:threads/features/users/user_profile_screen.dart';
 
 final router = GoRouter(
   routerNeglect: true, // #(해시) 없이 url 사용
-  initialLocation: "/",
+  initialLocation: "/home",
   routes: [
     GoRoute(
       name: MainNavigationScreen.routeName,

@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../constants/gaps.dart';
-import '../../../constants/theme/theme.dart';
-import '../../../core/utils.dart';
+import '../../../common/theme/theme.dart';
+import '../../../common/utils.dart';
 import 'image_carousel.dart';
 import 'thread_options_bottom_sheet.dart';
 import 'reply_timeline.dart';

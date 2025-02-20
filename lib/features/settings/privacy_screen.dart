@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/gaps.dart';
-import '../../constants/theme/theme.dart';
+import '../../common/theme/theme.dart';
 
 class PrivacyScreen extends StatefulWidget {
   static const routeName = "privacy";

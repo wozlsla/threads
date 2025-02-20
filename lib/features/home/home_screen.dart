@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:threads/core/utils.dart';
+import 'package:threads/common/utils.dart';
 
-import '../../../constants/gaps.dart';
-import '../../../constants/theme/theme.dart';
-import '../widgets/thread.dart';
+import '../../constants/gaps.dart';
+import '../../common/theme/theme.dart';
+import 'widgets/thread.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "home";

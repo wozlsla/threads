@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:threads/router.dart';
-import 'constants/theme/theme.dart';
+import 'common/theme/theme.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() {

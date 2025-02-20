@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:threads/core/utils.dart';
+import 'package:threads/common/utils.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
-import '../../constants/theme/theme.dart';
+import '../../common/theme/theme.dart';
 
 final tabs = [
   "All",
