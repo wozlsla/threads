@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../common/theme/theme.dart';
 
 import '../view_models/theme_config_vm.dart';
 
-class PrivacyScreen extends StatefulWidget {
+class PrivacyScreen extends ConsumerStatefulWidget {
   static const routeName = "privacy";
 
   const PrivacyScreen({super.key});
 
   @override
-  State<PrivacyScreen> createState() => _PrivacyScreenState();
+  PrivacyScreenState createState() => PrivacyScreenState();
 }
 
-class _PrivacyScreenState extends State<PrivacyScreen> {
+class PrivacyScreenState extends ConsumerState<PrivacyScreen> {
   bool _isPrivate = true;
 
   void _onPrivateChanged(bool? newValue) {
@@ -49,9 +49,9 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
       body: Column(
         children: [
           SwitchListTile.adaptive(
-            value: context.watch<ThemeConfigViewModel>().darkMode,
+            value: ref.watch(themeConfigProvider).darkMode,
             onChanged: (value) =>
-                context.read<ThemeConfigViewModel>().setDarkMode(value),
+                ref.read(themeConfigProvider.notifier).setDarkMode(value),
             title: Text("Dark Mode"),
             subtitle: Text("no Dark Mode by default."),
           ),

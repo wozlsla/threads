@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:threads/common/utils.dart';
 
 import 'package:threads/features/settings/repos/theme_config_repo.dart';
 import 'package:threads/features/settings/view_models/theme_config_vm.dart';
@@ -20,11 +19,10 @@ void main() async {
       ThemeConfigRepository(preferences); // initialize repository
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => ThemeConfigViewModel(
-              repository), // initialize ThemeConfigViewModel
+    ProviderScope(
+      overrides: [
+        themeConfigProvider.overrideWith(
+          () => ThemeConfigViewModel(repository),
         ),
       ],
       child: const TreadsApp(),
@@ -32,15 +30,17 @@ void main() async {
   );
 }
 
-class TreadsApp extends StatelessWidget {
+class TreadsApp extends ConsumerWidget {
   const TreadsApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       routerConfig: router,
       title: "Treads Clone",
-      themeMode: isDarkMode(context) ? ThemeMode.dark : ThemeMode.light,
+      themeMode: ref.watch(themeConfigProvider).darkMode
+          ? ThemeMode.dark
+          : ThemeMode.light,
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.primaryBackground,
         textSelectionTheme: TextSelectionThemeData(
