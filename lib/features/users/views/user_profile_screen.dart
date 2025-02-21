@@ -6,7 +6,7 @@ import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
 import '../../settings/views/settings_screen.dart';
-import '../widgets/persistent_tab_bar.dart';
+import 'widgets/persistent_tab_bar.dart';
 
 class UserProfileScreen extends StatelessWidget {
   static const routeName = "/profile";

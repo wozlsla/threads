@@ -1,12 +1,12 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../../constants/gaps.dart';
-import '../../../constants/sizes.dart';
-import '../../../common/theme/theme.dart';
+import '../../../../constants/gaps.dart';
+import '../../../../constants/sizes.dart';
+import '../../../../common/theme/theme.dart';
 
-import '../../../common/utils.dart';
-import '../models/user_model.dart';
+import '../../../../common/utils.dart';
+import '../../models/user_model.dart';
 
 class SearchTile extends StatefulWidget {
   final UserModel user;

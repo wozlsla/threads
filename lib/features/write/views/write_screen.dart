@@ -6,7 +6,7 @@ import '../../../common/utils.dart';
 import '../../../constants/sizes.dart';
 import '../../../common/theme/theme.dart';
 
-import '../../camera/camera_screen.dart';
+import '../../camera/views/camera_screen.dart';
 
 class WriteScreen extends StatefulWidget {
   const WriteScreen({super.key});

@@ -7,7 +7,7 @@ import '../../../constants/sizes.dart';
 import '../models/user_model.dart';
 import '../services/user_serviece.dart';
 
-import '../widgets/search_tile.dart';
+import 'widgets/search_tile.dart';
 
 class SearchScreen extends StatefulWidget {
   static const routeName = "/search";

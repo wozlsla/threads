@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants/sizes.dart';
-import '../../../common/theme/theme.dart';
+import '../../../../constants/sizes.dart';
+import '../../../../common/theme/theme.dart';
 import 'drag_handle.dart';
 import 'report_bottom_sheet.dart';
 
