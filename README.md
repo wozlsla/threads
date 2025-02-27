@@ -1,16 +1,32 @@
 # threads
 
-A new Flutter project.
+작업물 (진행중) 
 
-## Getting Started
+https://github.com/user-attachments/assets/14758cac-9251-4e3e-a088-afef6c6b3fe9
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<br/>  
+<br/>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Learn Flutter
+
+    
+- Flutter (Dart)
+  - App/Web UI
+  - Camera/Video
+  - Darkmode
+  - Navigation & GoRouter
+  - State Management : Riverpod & MVVM
+- Firebase
+  - Authentication (signup, login, social login)
+  - Database, Storage : uploading video
+  - Filtering (serch)
+
+<br/>  
+<br/>
+
+Reference
+
+- Sizing table : [Tailwind CSS](https://tailwindcss.com/) (sizes, gaps)
+- UI/UX pattern reference tool : [Mobbin](https://mobbin.com/)
