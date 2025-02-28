@@ -7,7 +7,7 @@ class UserServiece {
   static Future<List<UserModel>> loadUsers() async {
     try {
       final String jsonString =
-          await rootBundle.loadString("assets/repo/users.json");
+          await rootBundle.loadString("assets/repos/users.json");
       final List<dynamic> jsonData = json.decode(jsonString);
       final data = jsonData.map((json) => UserModel.fromJson(json)).toList();
       return data;

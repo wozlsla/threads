@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:threads/features/settings/repos/theme_config_repo.dart';
 import 'package:threads/features/settings/view_models/theme_config_vm.dart';
+import 'package:threads/firebase_options.dart';
 import 'package:threads/router.dart';
 import 'common/theme/theme.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -13,6 +15,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // !!??
 
   usePathUrlStrategy();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   final preferences = await SharedPreferences.getInstance();
   final repository =
