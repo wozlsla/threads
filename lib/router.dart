@@ -13,7 +13,7 @@ final router = GoRouter(
   routes: [
     GoRoute(
       name: MainNavigationScreen.routeName,
-      path: "/:tab(home|search|inbox|profile)",
+      path: "/:tab(home|search|activity|profile)",
       builder: (context, state) {
         final tab = state.params["tab"]!;
         return MainNavigationScreen(tab: tab);
@@ -25,19 +25,19 @@ final router = GoRouter(
       builder: (context, state) => HomeScreen(),
     ),
     GoRoute(
-      path: SearchScreen.routeName,
+      path: SearchScreen.routeURL,
       builder: (context, state) => SearchScreen(),
     ),
     GoRoute(
-      path: ActivityScreen.routeName,
+      path: ActivityScreen.routeURL,
       builder: (context, state) => ActivityScreen(),
     ),
     GoRoute(
-      path: UserProfileScreen.routeName,
+      path: UserProfileScreen.routeURL,
       builder: (context, state) => UserProfileScreen(),
     ),
     GoRoute(
-      path: SettingsScreen.routeName,
+      path: SettingsScreen.routeURL,
       builder: (context, state) => SettingsScreen(),
       routes: [
         GoRoute(

@@ -2,20 +2,21 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../common/utils.dart';
-import '../../../common/theme/theme.dart';
+import 'package:threads/features/settings/view_models/settings_vm.dart';
 
 import 'privacy_screen.dart';
 
-class SettingsScreen extends StatelessWidget {
-  static const routeName = "/settings";
+class SettingsScreen extends ConsumerWidget {
+  static const routeName = "settings";
+  static const routeURL = "/settings";
 
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = ref.watch(settingsProvider).darkMode;
 
     final List<Map<String, dynamic>> items = [
       {"icon": Icons.person_add_outlined, "text": "Follow and invite friends"},
@@ -43,7 +44,7 @@ class SettingsScreen extends StatelessWidget {
           label: Text(
             "Back",
             style: TextStyle(
-              fontSize: 17,
+              fontSize: 18,
             ),
           ),
           onPressed: () => Navigator.of(context).pop(),
@@ -101,12 +102,10 @@ class SettingsScreen extends StatelessWidget {
                   actions: [
                     CupertinoDialogAction(
                       onPressed: () => Navigator.of(context).pop(),
-                      // isDefaultAction: true,
+                      isDefaultAction: true,
                       child: Text(
                         "No",
-                        style: TextStyle(
-                          color: AppColors.navigationIcon,
-                        ),
+                        style: TextStyle(color: Colors.blue.shade500),
                       ),
                     ),
                     CupertinoDialogAction(

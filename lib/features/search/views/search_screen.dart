@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../common/utils.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:threads/features/settings/view_models/settings_vm.dart';
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
@@ -9,21 +10,22 @@ import '../services/user_serviece.dart';
 
 import 'widgets/search_tile.dart';
 
-class SearchScreen extends StatefulWidget {
-  static const routeName = "/search";
+class SearchScreen extends ConsumerStatefulWidget {
+  static const routeName = "search";
+  static const routeURL = "/search";
 
   const SearchScreen({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  ConsumerState<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchScreenState extends ConsumerState<SearchScreen> {
   final Future<List<UserModel>> _users = UserServiece.loadUsers();
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+    final isDark = ref.watch(settingsProvider).darkMode;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(

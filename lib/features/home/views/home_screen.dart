@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:threads/common/utils.dart';
+import 'package:threads/features/settings/view_models/settings_vm.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../common/theme/theme.dart';
 import 'widgets/thread.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   static const routeName = "home";
   static const routeURL = "/home";
 
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+    final isDark = ref.watch(settingsProvider).darkMode;
     return Scaffold(
       body: Stack(
         children: [
@@ -50,15 +51,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     return Stack(
                       children: [
                         Column(
-                          children: const [
-                            Padding(
-                              padding: EdgeInsets.only(right: 8),
-                              child: Thread(),
-                            ),
+                          children: [
+                            Thread(),
                             Gaps.v16,
                             Divider(
                               height: 0,
-                              thickness: 0.3,
+                              thickness: 0.5,
                             ),
                             Gaps.v16,
                           ],

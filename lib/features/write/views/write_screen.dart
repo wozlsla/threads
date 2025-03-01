@@ -1,21 +1,23 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../common/utils.dart';
+import 'package:threads/features/settings/view_models/settings_vm.dart';
+import '../../../utils.dart';
 import '../../../constants/sizes.dart';
 import '../../../common/theme/theme.dart';
 
 import '../../camera/views/camera_screen.dart';
 
-class WriteScreen extends StatefulWidget {
+class WriteScreen extends ConsumerStatefulWidget {
   const WriteScreen({super.key});
 
   @override
-  State<WriteScreen> createState() => _WriteScreenState();
+  ConsumerState<WriteScreen> createState() => _WriteScreenState();
 }
 
-class _WriteScreenState extends State<WriteScreen> {
+class _WriteScreenState extends ConsumerState<WriteScreen> {
   final TextEditingController _textEditingController = TextEditingController();
   String _isText = "";
   List<String> images = [];
@@ -60,7 +62,7 @@ class _WriteScreenState extends State<WriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+    final isDark = ref.watch(settingsProvider).darkMode;
     return GestureDetector(
       onTap: _onScaffoldTap,
       child: Scaffold(

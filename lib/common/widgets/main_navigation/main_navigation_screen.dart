@@ -30,7 +30,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     "home",
     "search",
     "xxxx",
-    "inbox",
+    "activity",
     "profile",
   ];
 

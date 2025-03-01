@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:threads/common/utils.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:threads/features/settings/view_models/settings_vm.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
@@ -15,16 +16,17 @@ final tabs = [
   "Follows",
 ];
 
-class ActivityScreen extends StatefulWidget {
-  static const routeName = "/activity";
+class ActivityScreen extends ConsumerStatefulWidget {
+  static const routeName = "activity";
+  static const routeURL = "/activity";
 
   const ActivityScreen({super.key});
 
   @override
-  State<ActivityScreen> createState() => _ActivityScreenState();
+  ConsumerState<ActivityScreen> createState() => _ActivityScreenState();
 }
 
-class _ActivityScreenState extends State<ActivityScreen>
+class _ActivityScreenState extends ConsumerState<ActivityScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -45,7 +47,7 @@ class _ActivityScreenState extends State<ActivityScreen>
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+    final isDark = ref.watch(settingsProvider).darkMode;
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(

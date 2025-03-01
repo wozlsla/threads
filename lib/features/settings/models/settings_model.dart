@@ -1,7 +1,7 @@
-class ThemeConfigModel {
+class SettingsModel {
   bool darkMode;
 
-  ThemeConfigModel({
+  SettingsModel({
     required this.darkMode,
   });
 }

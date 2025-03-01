@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:threads/features/settings/view_models/settings_vm.dart';
 
 class PersistentTabBar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final isDark = ProviderScope.containerOf(context, listen: true)
+        .read(settingsProvider)
+        .darkMode;
+
     return Container(
       decoration: BoxDecoration(
-          // color: Colors.teal,
-          // color: AppColors.primaryBackground,
-          ),
+        color: isDark ? Colors.black : Colors.white,
+      ),
       child: TabBar(
         indicatorSize: TabBarIndicatorSize.tab, // ?!
         tabs: [

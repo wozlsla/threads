@@ -1,14 +1,15 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:threads/features/settings/view_models/settings_vm.dart';
 import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 import '../../../../common/theme/theme.dart';
 
-import '../../../../common/utils.dart';
 import '../../models/user_model.dart';
 
-class SearchTile extends StatefulWidget {
+class SearchTile extends ConsumerStatefulWidget {
   final UserModel user;
 
   const SearchTile({
@@ -17,10 +18,10 @@ class SearchTile extends StatefulWidget {
   });
 
   @override
-  State<SearchTile> createState() => _SearchTileState();
+  ConsumerState<SearchTile> createState() => _SearchTileState();
 }
 
-class _SearchTileState extends State<SearchTile> {
+class _SearchTileState extends ConsumerState<SearchTile> {
   late bool _following; // 초기화 변수
 
   // final isVerified = Random().nextBool();
@@ -40,7 +41,7 @@ class _SearchTileState extends State<SearchTile> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+    final isDark = ref.watch(settingsProvider).darkMode;
     return ListTile(
       leading: Padding(
         padding: const EdgeInsets.only(bottom: 11), // 56 = 11 + 45

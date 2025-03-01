@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:threads/features/settings/repos/theme_config_repo.dart';
-import 'package:threads/features/settings/view_models/theme_config_vm.dart';
+import 'package:threads/features/settings/repos/settings_repo.dart';
+import 'package:threads/features/settings/view_models/settings_vm.dart';
 import 'package:threads/firebase_options.dart';
 import 'package:threads/router.dart';
 import 'common/theme/theme.dart';
@@ -21,14 +21,13 @@ void main() async {
   );
 
   final preferences = await SharedPreferences.getInstance();
-  final repository =
-      ThemeConfigRepository(preferences); // initialize repository
+  final repository = SettingsRepository(preferences); // initialize repository
 
   runApp(
     ProviderScope(
       overrides: [
-        themeConfigProvider.overrideWith(
-          () => ThemeConfigViewModel(repository),
+        settingsProvider.overrideWith(
+          () => SettingsViewModel(repository),
         ),
       ],
       child: const TreadsApp(),
@@ -41,12 +40,11 @@ class TreadsApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = ref.watch(settingsProvider).darkMode;
     return MaterialApp.router(
       routerConfig: router,
       title: "Treads Clone",
-      themeMode: ref.watch(themeConfigProvider).darkMode
-          ? ThemeMode.dark
-          : ThemeMode.light,
+      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.primaryBackground,
         textSelectionTheme: TextSelectionThemeData(
@@ -56,12 +54,6 @@ class TreadsApp extends ConsumerWidget {
           surfaceTintColor: AppColors.primaryBackground,
           foregroundColor: Colors.black,
           backgroundColor: AppColors.primaryBackground,
-          // actionsIconTheme: IconThemeData(
-          //   color: Colors.grey.shade100,
-          // ),
-          // iconTheme: IconThemeData(
-          //   color: Colors.grey.shade400,
-          // ),
         ),
         bottomAppBarTheme: BottomAppBarTheme(
           surfaceTintColor: AppColors.primaryBackground,
@@ -100,9 +92,6 @@ class TreadsApp extends ConsumerWidget {
           iconTheme: IconThemeData(
               // color: Colors.grey.shade500,
               ),
-          // actionsIconTheme: IconThemeData(
-          //   color: Colors.red,
-          // ),
         ),
         bottomAppBarTheme: BottomAppBarTheme(
           color: Colors.grey.shade900,

@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import '../../../common/utils.dart';
+import 'package:threads/features/home/views/widgets/thread.dart';
+import 'package:threads/features/settings/view_models/settings_vm.dart';
+import '../../../utils.dart';
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
 import '../../settings/views/settings_screen.dart';
 import 'widgets/persistent_tab_bar.dart';
 
-class UserProfileScreen extends StatelessWidget {
-  static const routeName = "/profile";
+class UserProfileScreen extends ConsumerWidget {
+  static const routeName = "profile";
+  static const routeURL = "/profile";
 
   const UserProfileScreen({super.key});
 
   void _onSettingsPressed(BuildContext context) {
-    context.push(SettingsScreen.routeName);
+    context.push(SettingsScreen.routeURL);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     double iconSize = Sizes.size28;
-    final isDark = isDarkMode(context);
+    final isDark = ref.watch(settingsProvider).darkMode;
     return SafeArea(
       child: Scaffold(
         body: DefaultTabController(
@@ -112,7 +116,7 @@ class UserProfileScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: Text(
-                                        'threads.net',
+                                        "threads.net",
                                         style: TextStyle(
                                           fontSize: 10,
                                           color: Colors.grey.shade600,
@@ -200,22 +204,27 @@ class UserProfileScreen extends StatelessWidget {
                     height: MediaQuery.of(context).size.height,
                     child: TabBarView(
                       children: [
-                        Center(
-                          child: Text(
-                            "Threades",
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Text(
-                            "Replies",
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        ListView.builder(
+                            physics:
+                                const NeverScrollableScrollPhysics(), // 스크롤 비활성화
+                            itemCount: 5,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage: NetworkImage(profileImage),
+                                ),
+                                title: Text("test"),
+                                subtitle: Text("test"),
+                                trailing: Icon(Icons.more_vert),
+                              );
+                            }),
+                        ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: 3,
+                          itemBuilder: (context, index) => Thread(),
+                          separatorBuilder: (context, index) => Divider(
+                            thickness: 0.5,
+                            indent: 72,
                           ),
                         ),
                       ],

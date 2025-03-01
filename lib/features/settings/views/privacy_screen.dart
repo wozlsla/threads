@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../constants/gaps.dart';
 import '../../../common/theme/theme.dart';
 
-import '../view_models/theme_config_vm.dart';
+import '../view_models/settings_vm.dart';
 
 class PrivacyScreen extends ConsumerStatefulWidget {
   static const routeName = "privacy";
@@ -27,6 +27,8 @@ class PrivacyScreenState extends ConsumerState<PrivacyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = ref.watch(settingsProvider).darkMode;
+
     const items = [
       [Icons.alternate_email, "Mentions"],
       [Icons.notifications_off, "Muted"],
@@ -38,7 +40,6 @@ class PrivacyScreenState extends ConsumerState<PrivacyScreen> {
       appBar: AppBar(
         elevation: 0.1,
         shadowColor: Colors.grey.shade300,
-        leadingWidth: 98,
         title: Text(
           "Privacy",
           style: TextStyle(
@@ -49,9 +50,9 @@ class PrivacyScreenState extends ConsumerState<PrivacyScreen> {
       body: Column(
         children: [
           SwitchListTile.adaptive(
-            value: ref.watch(themeConfigProvider).darkMode,
+            value: isDark,
             onChanged: (value) =>
-                ref.read(themeConfigProvider.notifier).setDarkMode(value),
+                ref.read(settingsProvider.notifier).setDarkMode(value),
             title: Text("Dark Mode"),
             subtitle: Text("no Dark Mode by default."),
           ),
