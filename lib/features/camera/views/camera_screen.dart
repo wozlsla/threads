@@ -1,29 +1,33 @@
 // import 'dart:developer';
 
+import 'dart:io';
+
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:threads/features/settings/view_models/settings_vm.dart';
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
-class CameraScreen extends StatefulWidget {
+class CameraScreen extends ConsumerStatefulWidget {
   const CameraScreen({super.key});
 
   @override
-  State<CameraScreen> createState() => _CameraScreenState();
+  ConsumerState<CameraScreen> createState() => _CameraScreenState();
 }
 
-class _CameraScreenState extends State<CameraScreen> {
+class _CameraScreenState extends ConsumerState<CameraScreen> {
   bool _hasPermission = false;
+  late final bool _noCamera = kDebugMode && Platform.isIOS; // Simulator
 
-  late final CameraController _cameraController;
+  late CameraController _cameraController;
 
   Future<void> initCamera() async {
     final cameras = await availableCameras();
-    // print(cameras);
-    // log(cameras.toString());
 
     if (cameras.isEmpty) return;
 
@@ -34,6 +38,9 @@ class _CameraScreenState extends State<CameraScreen> {
 
     await _cameraController.initialize();
     await _cameraController.takePicture();
+
+    if (!mounted) return;
+    setState(() {});
   }
 
   Future<void> _takePicture() async {
@@ -53,7 +60,9 @@ class _CameraScreenState extends State<CameraScreen> {
 
     if (!cameraDenied) {
       _hasPermission = true;
-      await initCamera();
+      if (!_noCamera) {
+        await initCamera();
+      }
       setState(() {});
     }
   }
@@ -78,19 +87,19 @@ class _CameraScreenState extends State<CameraScreen> {
 
   @override
   void dispose() {
-    _cameraController.dispose();
+    if (!_noCamera) _cameraController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDark = ref.watch(settingsProvider).darkMode;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: isDark ? Colors.black : Colors.white,
       ),
       body: SizedBox(
-        // width: MediaQuery.of(context).size.width,
-        child: !_hasPermission || !_cameraController.value.isInitialized
+        child: !_hasPermission
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -109,7 +118,7 @@ class _CameraScreenState extends State<CameraScreen> {
             : Stack(
                 alignment: Alignment.center,
                 children: [
-                  CameraPreview(_cameraController),
+                  if (!_noCamera) CameraPreview(_cameraController),
                   Positioned(
                     width: MediaQuery.of(context).size.width,
                     bottom: Sizes.size40,
@@ -134,7 +143,6 @@ class _CameraScreenState extends State<CameraScreen> {
                               onPressed: _onPickImagePressed,
                               icon: FaIcon(
                                 FontAwesomeIcons.image,
-                                color: Colors.black,
                               ),
                             ),
                           ),

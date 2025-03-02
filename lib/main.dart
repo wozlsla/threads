@@ -7,7 +7,6 @@ import 'package:threads/features/settings/repos/settings_repo.dart';
 import 'package:threads/features/settings/view_models/settings_vm.dart';
 import 'package:threads/firebase_options.dart';
 import 'package:threads/router.dart';
-import 'package:threads/utils.dart';
 import 'common/theme/theme.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
@@ -40,8 +39,8 @@ class TreadsApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final isDark = ref.watch(settingsProvider).darkMode;
-    final isDark = isDarkMode(context); // for test
+    final isDark = ref.watch(settingsProvider).darkMode;
+    // final isDark = isDarkMode(context); // for test
 
     return MaterialApp.router(
       routerConfig: ref.watch(routerProvider),
