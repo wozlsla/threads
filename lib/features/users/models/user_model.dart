@@ -13,12 +13,13 @@ class UserModel {
     required this.follow,
   });
 
+  // type 'Null' is not a subtype of type 'String'
   UserModel.fromJson(Map<String, dynamic> json)
-      : profileImage = json["profileImage"],
-        uid = json["uid"],
-        userName = json["userName"],
-        followers = json["followers"],
-        follow = json["follow"];
+      : profileImage = json["profileImage"] ?? "",
+        uid = json["uid"] ?? "",
+        userName = json["userName"] ?? "",
+        followers = json["followers"] ?? "",
+        follow = json["follow"] ?? false;
 
   Map<String, dynamic> toJson() {
     return {

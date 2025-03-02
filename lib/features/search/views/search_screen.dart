@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:threads/features/settings/view_models/settings_vm.dart';
+import 'package:threads/features/users/view_models/user_vm.dart';
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
@@ -21,6 +22,8 @@ class SearchScreen extends ConsumerStatefulWidget {
 }
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
+  final _searchController = TextEditingController();
+
   final Future<List<UserModel>> _users = UserServiece.loadUsers();
 
   @override
@@ -30,7 +33,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        toolbarHeight: kToolbarHeight + 35,
+        toolbarHeight: kToolbarHeight + 50,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -43,42 +46,56 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             ),
             Gaps.v12,
             CupertinoSearchTextField(
-              style: TextStyle(color: isDark ? Colors.white : Colors.black),
-              // decoration: BoxDecoration(
-              //   color: Colors.grey.shade200,
-              //   borderRadius: const BorderRadius.all(
-              //     Radius.circular(10),
-              //   ),
-              // ),
-              // prefixIcon: const Icon(
-              //   Icons.search,
-              //   color: Colors.grey,
-              // ),
+              controller: _searchController,
+              autocorrect: false,
+              padding: EdgeInsets.symmetric(
+                vertical: 16,
+                horizontal: 4.0,
+              ),
+              cursorColor: Colors.blue.shade800,
+              cursorRadius: Radius.circular(6.0),
+              style: TextStyle(
+                color: isDark ? Colors.white : Colors.black,
+                fontSize: 14.0,
+              ),
+              decoration: BoxDecoration(
+                color: isDark ? Colors.grey.shade900 : Colors.grey.shade200,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10),
+                ),
+              ),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                child: Icon(
+                  Icons.search,
+                  color: isDark ? Colors.white : Colors.black,
+                ),
+              ),
               // placeholder: "Search",
             ),
           ],
         ),
       ),
-      body: FutureBuilder(
-        future: _users,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.separated(
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(
-                height: 0.3,
-                thickness: 0.3,
-              ),
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) => SearchTile(
-                user: snapshot.data![index],
-              ),
-            );
-          }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+      body: Column(
+        children: [
+          Gaps.v4,
+          ref.watch(usersProvider(_searchController.value.text)).when(
+                data: (data) => Flexible(
+                  child: ListView.separated(
+                    itemCount: data.length,
+                    itemBuilder: (context, index) =>
+                        SearchTile(user: data[index]),
+                    separatorBuilder: (context, index) => Divider(
+                      height: 0,
+                      thickness: 0.5,
+                      indent: 72,
+                    ),
+                  ),
+                ),
+                loading: () => const CircularProgressIndicator(),
+                error: (error, stackTrace) => Text(error.toString()),
+              )
+        ],
       ),
     );
   }

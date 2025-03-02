@@ -43,30 +43,28 @@ class _SearchTileState extends ConsumerState<SearchTile> {
   Widget build(BuildContext context) {
     final isDark = ref.watch(settingsProvider).darkMode;
     return ListTile(
-      leading: Padding(
-        padding: const EdgeInsets.only(bottom: 11), // 56 = 11 + 45
-        child: Container(
-          width: 45,
-          height: 45,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: AppColors.secondaryIcon, // 테두리
-              width: 0.2,
-            ),
+      leading: Container(
+        width: 45,
+        height: 45,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: AppColors.secondaryIcon, // 테두리
+            width: 0.2,
           ),
-          child: CircleAvatar(
-            radius: 18,
-            backgroundImage: NetworkImage(
-              widget.user.profileImage,
-            ),
+        ),
+        child: CircleAvatar(
+          radius: 18,
+          backgroundImage: NetworkImage(
+            widget.user.profileImage,
           ),
         ),
       ),
       title: Row(
         children: [
           Text(
-            widget.user.uid,
+            // widget.user.uid,
+            widget.user.userName,
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
