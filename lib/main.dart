@@ -45,7 +45,7 @@ class TreadsApp extends ConsumerWidget {
     final isDark = isDarkMode(context); // for test
 
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: ref.watch(routerProvider),
       title: "Treads Clone",
       themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(

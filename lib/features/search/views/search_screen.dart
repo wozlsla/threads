@@ -5,7 +5,7 @@ import 'package:threads/features/settings/view_models/settings_vm.dart';
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
-import '../models/user_model.dart';
+import '../../users/models/user_model.dart';
 import '../services/user_serviece.dart';
 
 import 'widgets/search_tile.dart';

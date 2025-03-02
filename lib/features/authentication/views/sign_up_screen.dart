@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:threads/features/authentication/view_models/sign_up_vm.dart';
 import 'package:threads/features/settings/view_models/settings_vm.dart';
 
 import '../../../common/theme/threads_colors.dart';
@@ -27,6 +28,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+
+        ref.read(signUpProvider.notifier).signUp(
+              email: formData["email"]!,
+              password: formData["password"]!,
+              context: context,
+            );
       }
     }
   }
@@ -104,7 +111,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                           onTap: _onSubmitTap,
                           child: FormButton(
                             payload: "Sign up",
-                            disabled: false,
+                            disabled: ref.watch(signUpProvider).isLoading,
                           ),
                         ),
                         Gaps.v10,

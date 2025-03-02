@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:threads/common/theme/threads_colors.dart';
 import 'package:threads/constants/gaps.dart';
+import 'package:threads/features/authentication/view_models/login_vm.dart';
 import 'package:threads/features/authentication/views/sign_up_screen.dart';
 import 'package:threads/features/authentication/views/widgets/form_button.dart';
 import 'package:threads/features/settings/view_models/settings_vm.dart';
@@ -29,6 +30,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+
+        ref.read(loginProvider.notifier).login(
+              email: formData["email"]!,
+              password: formData["password"]!,
+              context: context,
+            );
       }
     }
   }
@@ -110,7 +117,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           onTap: _onSubmitTap,
                           child: FormButton(
                             payload: "Log in",
-                            disabled: false,
+                            disabled: ref.watch(loginProvider).isLoading,
                           ),
                         ),
                         Gaps.v10,

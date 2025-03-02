@@ -7,7 +7,7 @@ import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 import '../../../../common/theme/theme.dart';
 
-import '../../models/user_model.dart';
+import '../../../users/models/user_model.dart';
 
 class SearchTile extends ConsumerStatefulWidget {
   final UserModel user;
@@ -66,7 +66,7 @@ class _SearchTileState extends ConsumerState<SearchTile> {
       title: Row(
         children: [
           Text(
-            widget.user.userId,
+            widget.user.uid,
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),

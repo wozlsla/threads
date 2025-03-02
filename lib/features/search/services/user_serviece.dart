@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 
-import '../models/user_model.dart';
+import '../../users/models/user_model.dart';
 
 class UserServiece {
   static Future<List<UserModel>> loadUsers() async {

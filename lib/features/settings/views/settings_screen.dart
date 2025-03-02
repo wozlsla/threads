@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:threads/features/authentication/repos/auth_repo.dart';
 import 'package:threads/features/settings/view_models/settings_vm.dart';
 
 import 'privacy_screen.dart';
@@ -29,6 +30,11 @@ class SettingsScreen extends ConsumerWidget {
 
     void _onPrivacyTab(BuildContext context) {
       context.pushNamed(PrivacyScreen.routeName);
+    }
+
+    void _onLogOutTap(BuildContext context) {
+      ref.read(authRepo).signOut();
+      context.go("/login");
     }
 
     return Scaffold(
@@ -109,7 +115,7 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                     ),
                     CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => _onLogOutTap(context),
                       isDestructiveAction: true,
                       child: Text("Yes"),
                     ),
