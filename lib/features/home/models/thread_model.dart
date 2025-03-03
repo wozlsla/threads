@@ -15,8 +15,10 @@ class ThreadModel {
 
   ThreadModel.fromJson(Map<String, dynamic> json)
       : authorId = json["authorId"],
-        body = json["body"],
-        imageUrls = List<String>.from(json["imageUrls"]),
+        body = json["body"] ?? "",
+        imageUrls = json["imageUrls"] != null
+            ? List<String>.from(json["imageUrls"])
+            : [],
         createdAt = json["createdAt"];
 
   Map<String, dynamic> toJson() {

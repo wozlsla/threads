@@ -68,15 +68,22 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
   }
 
   Future<void> _onPickImagePressed() async {
+    /*     
     final pickedImage = await ImagePicker().pickImage(
       source: ImageSource.gallery,
     );
 
-    if (pickedImage == null) return;
+    if (pickedImage == null) return; */
+
+    final pickedImages = await ImagePicker().pickMultiImage();
+    if (pickedImages.isEmpty) return;
 
     if (!mounted) return;
 
-    Navigator.of(context).pop(pickedImage.path);
+    // Navigator.of(context).pop(pickedImage); // 단일 객체. XFFile
+    // Navigator.of(context).pop([pickedImages]); // List<XFile>
+    // Navigator.of(context).pop(pickedImage.path); // String ㅠ
+    Navigator.of(context).pop(pickedImages); // List<XFile>
   }
 
   @override

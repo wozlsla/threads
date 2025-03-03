@@ -42,7 +42,9 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
               .toList(),
         );
 
-    context.pop();
+    if (mounted) {
+      context.pop();
+    }
   }
 
   void _onScaffoldTap() {
@@ -58,12 +60,12 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
     );
 
     if (result is List<XFile>) {
-      // ✅ 로컬 파일은 FileSource로 변환
+      // 로컬 파일은 FileSource로 변환
       setState(() {
         _picture = result.map((file) => FileSource(file)).toList();
       });
     } else if (result is List<String>) {
-      // ✅ 웹 URL인지, 로컬 파일인지 체크 후 Source 변환
+      // 웹 URL인지, 로컬 파일인지 체크 후 Source 변환
       setState(() {
         _picture = result.map((url) {
           return url.startsWith("http")
@@ -73,7 +75,7 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
       });
     } else if (result is String) {
       setState(() {
-        // ✅ 단일 URL을 반환받을 경우
+        // 단일 URL을 반환받을 경우
         _picture = [
           result.startsWith("http")
               ? UrlSource(result)
@@ -81,11 +83,16 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
         ];
       });
     } else if (result == null) {
-      debugPrint("User cancelled image selection."); // ✅ 사용자가 취소했을 때
+      debugPrint("User cancelled image selection."); // 사용자가 취소했을 때
     } else {
       debugPrint(
           "Error: Expected List<XFile> or List<String> but got ${result.runtimeType}");
     }
+  }
+
+  void _onCloseButton() {
+    // if (!mounted) return;
+    Navigator.of(context).pop();
   }
 
   @override
@@ -116,7 +123,7 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
           scrolledUnderElevation: 0,
           backgroundColor: isDark ? Colors.grey.shade900 : null,
           leading: TextButton(
-            onPressed: _onTap,
+            onPressed: _onCloseButton,
             style: TextButton.styleFrom(
               padding: EdgeInsets.only(left: 20.0),
               // foregroundColor: Colors.black,
@@ -189,7 +196,7 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Jimnny",
+                              username,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -198,15 +205,14 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                             Opacity(
                               opacity: 0.4,
                               child: CloseButton(
-                                onPressed: () => setState(() {
-                                  _picture = null;
-                                }),
+                                onPressed: _onCloseButton,
                               ),
                             ),
                           ],
                         ),
                         TextField(
                           controller: _textController,
+                          autocorrect: false,
                           cursorColor: AppColors.verifiedBadge,
                           maxLines: null, // 자동 줄바꿈 활성화
                           keyboardType: TextInputType.multiline,

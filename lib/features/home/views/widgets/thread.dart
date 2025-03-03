@@ -33,7 +33,9 @@ class Thread extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userName = thread.authorId;
+    final faker = Faker();
+    final userName = faker.internet.userName(); // for test
+    // final userName = thread.authorId;
     final sentence = thread.body;
 
     final random = RandomGenerator(seed: DateTime.now().millisecondsSinceEpoch);
