@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:threads/common/widgets/source.dart';
+import 'package:threads/features/home/models/thread_model.dart';
 
 import '../../../../constants/gaps.dart';
 import '../../../../common/theme/theme.dart';
@@ -11,7 +13,12 @@ import 'thread_options_bottom_sheet.dart';
 import 'reply_timeline.dart';
 
 class Thread extends StatelessWidget {
-  const Thread({super.key});
+  final ThreadModel thread;
+
+  const Thread({
+    super.key,
+    required this.thread,
+  });
 
   void _onOptionsTap(BuildContext context) {
     showModalBottomSheet(
@@ -26,22 +33,19 @@ class Thread extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final faker = Faker();
-    final userName = faker.internet.userName();
-    final sentence = faker.lorem.sentence();
+    final userName = thread.authorId;
+    final sentence = thread.body;
 
     final random = RandomGenerator(seed: DateTime.now().millisecondsSinceEpoch);
     final since = random.integer(60);
-
-    final imgLength = random.integer(3) + 1;
-    final hasImage = random.integer(3) == 0;
-
-    final images = List.generate(imgLength, (index) => getImage());
 
     final replies = random.integer(4);
     final repliers = List.generate(replies, (index) => getImage());
 
     final bool isVerified = random.integer(3) != 0;
+
+    final sources =
+        thread.imageUrls?.map(toImageURL).map(UrlSource.new).toList();
 
     return IntrinsicHeight(
       child: Padding(
@@ -113,7 +117,7 @@ class Thread extends StatelessWidget {
                     style: TextStyle(fontSize: 16),
                   ),
                   Gaps.v8,
-                  if (hasImage) ImageCarousel(imageUrls: images),
+                  if (sources != null) ImageCarousel(sources: sources),
                   Gaps.v12,
                   SizedBox(
                     width: 150,

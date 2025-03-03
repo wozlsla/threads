@@ -1,13 +1,15 @@
 import 'package:flutter/widgets.dart';
+import 'package:threads/common/widgets/source.dart';
 
 import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 
 class ImageCarousel extends StatelessWidget {
-  final List<String> imageUrls;
+  final List<Source> sources;
+
   const ImageCarousel({
     super.key,
-    required this.imageUrls,
+    required this.sources,
   });
 
   @override
@@ -16,14 +18,12 @@ class ImageCarousel extends StatelessWidget {
       height: 200,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: imageUrls.length,
+        itemCount: sources.length,
         separatorBuilder: (context, index) => (Gaps.h8),
         itemBuilder: (BuildContext context, int index) {
           return ClipRRect(
             borderRadius: BorderRadius.circular(Sizes.size10),
-            child: Image.network(
-              imageUrls[index],
-            ),
+            child: sources[index],
           );
         },
       ),

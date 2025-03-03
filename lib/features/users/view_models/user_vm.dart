@@ -5,14 +5,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:threads/features/users/models/user_model.dart';
 import 'package:threads/features/users/repos/user_repo.dart';
 
-class UsersViewModel extends FamilyAsyncNotifier<List<UserModel>, String> {
+class UsersViewModel extends AsyncNotifier<void> {
   late final UserRepository _repository;
 
   @override
-  FutureOr<List<UserModel>> build(String arg) async {
+  Future<void> build() async {
     _repository = ref.read(userRepo);
+  }
 
-    return _repository.searchUsers(arg);
+  Future<List<UserModel>> searchUsers(String keyword) async {
+    return _repository.searchUsers(keyword);
   }
 
   Future<void> createUser(UserCredential userCredential) async {
@@ -28,7 +30,6 @@ class UsersViewModel extends FamilyAsyncNotifier<List<UserModel>, String> {
   }
 }
 
-final usersProvider =
-    AsyncNotifierProvider.family<UsersViewModel, List<UserModel>, String>(
+final usersProvider = AsyncNotifierProvider<UsersViewModel, void>(
   () => UsersViewModel(),
 );

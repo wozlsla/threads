@@ -1,12 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:threads/features/users/models/user_model.dart';
 
 class UserRepository {
   late final FirebaseFirestore _db = FirebaseFirestore.instance;
+  late final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<void> createUser(UserModel user) async {
     await _db.collection("users").doc(user.uid).set(user.toJson());
@@ -29,6 +32,15 @@ class UserRepository {
         return nameLower.contains(keywordLower);
       },
     ).toList();
+  }
+
+  Future<String> uploadThread(File file, String authorId) async {
+    final fileName =
+        "/threads/$authorId/${DateTime.now().millisecondsSinceEpoch.toString()}";
+    final ref = _storage.ref().child(fileName);
+    await ref.putFile(file);
+
+    return fileName;
   }
 }
 

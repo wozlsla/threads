@@ -1,8 +1,15 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:threads/common/widgets/source.dart';
+import 'package:threads/features/home/view_models/thread_vm.dart';
+import 'package:threads/features/home/views/widgets/image_carousel.dart';
+
 import 'package:threads/features/settings/view_models/settings_vm.dart';
 import '../../../utils.dart';
 import '../../../constants/sizes.dart';
@@ -18,13 +25,24 @@ class WriteScreen extends ConsumerStatefulWidget {
 }
 
 class _WriteScreenState extends ConsumerState<WriteScreen> {
-  final TextEditingController _textEditingController = TextEditingController();
-  String _isText = "";
-  List<String> images = [];
-  final bool isPicked = false;
+  // List<XFile>? _picture;
+  List<Source>? _picture; // UrlSource, FileSource 둘 다 가능하게 수정
 
-  void _onTap() {
-    Navigator.of(context).pop();
+  final TextEditingController _textController = TextEditingController();
+  final facker = Faker();
+  final profile = getImage();
+  late String username;
+
+  void _onTap() async {
+    await ref.read(threadProvider.notifier).uploadThread(
+          body: _textController.text,
+          files: _picture
+              ?.whereType<FileSource>() // FileSource만 변환
+              .map((e) => File(e.file.path))
+              .toList(),
+        );
+
+    context.pop();
   }
 
   void _onScaffoldTap() {
@@ -32,31 +50,57 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
   }
 
   Future<void> _onClipTap() async {
-    final imagePath = await Navigator.of(context).push(
+    final result = await Navigator.push(
+      context,
       MaterialPageRoute(
-        builder: (context) => CameraScreen(),
+        builder: (context) => const CameraScreen(),
       ),
     );
 
-    if (imagePath != null) images.add(imagePath);
-
-    setState(() {});
+    if (result is List<XFile>) {
+      // ✅ 로컬 파일은 FileSource로 변환
+      setState(() {
+        _picture = result.map((file) => FileSource(file)).toList();
+      });
+    } else if (result is List<String>) {
+      // ✅ 웹 URL인지, 로컬 파일인지 체크 후 Source 변환
+      setState(() {
+        _picture = result.map((url) {
+          return url.startsWith("http")
+              ? UrlSource(url)
+              : FileSource(XFile(url));
+        }).toList();
+      });
+    } else if (result is String) {
+      setState(() {
+        // ✅ 단일 URL을 반환받을 경우
+        _picture = [
+          result.startsWith("http")
+              ? UrlSource(result)
+              : FileSource(XFile(result))
+        ];
+      });
+    } else if (result == null) {
+      debugPrint("User cancelled image selection."); // ✅ 사용자가 취소했을 때
+    } else {
+      debugPrint(
+          "Error: Expected List<XFile> or List<String> but got ${result.runtimeType}");
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    _textEditingController.addListener(() {
-      setState(() {
-        _isText = _textEditingController.text;
-        // print(_isText);
-      });
+    username = faker.person.name();
+
+    _textController.addListener(() {
+      setState(() {});
     });
   }
 
   @override
   void dispose() {
-    _textEditingController.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
@@ -114,7 +158,7 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                     children: [
                       CircleAvatar(
                         foregroundImage: NetworkImage(
-                          profileImage,
+                          profile,
                         ),
                         radius: 24,
                       ),
@@ -129,7 +173,7 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                       ),
                       CircleAvatar(
                         foregroundImage: NetworkImage(
-                          profileImage,
+                          profile,
                         ),
                         radius: 16,
                       ),
@@ -153,12 +197,16 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                             ),
                             Opacity(
                               opacity: 0.4,
-                              child: CloseButton(),
+                              child: CloseButton(
+                                onPressed: () => setState(() {
+                                  _picture = null;
+                                }),
+                              ),
                             ),
                           ],
                         ),
                         TextField(
-                          controller: _textEditingController,
+                          controller: _textController,
                           cursorColor: AppColors.verifiedBadge,
                           maxLines: null, // 자동 줄바꿈 활성화
                           keyboardType: TextInputType.multiline,
@@ -172,23 +220,30 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                             border: InputBorder.none, // 언더라인 제거
                           ),
                         ),
-                        images.isNotEmpty
-                            ? Container(
-                                height: 200,
-                                width: 300,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: AppColors.secondaryIcon, // 테두리
-                                    width: 0.2,
-                                  ),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.file(
-                                    File(images[0]),
-                                    fit: BoxFit.fill,
-                                  ),
+                        _picture != null
+                            ? Expanded(
+                                child: Stack(
+                                  children: [
+                                    ImageCarousel(
+                                      // sources: _picture!
+                                      //     .map(FileSource.new)
+                                      //     .toList(),
+                                      sources: _picture!,
+                                    ),
+                                    Positioned(
+                                      top: 5,
+                                      left: 5,
+                                      child: GestureDetector(
+                                        onTap: () => setState(() {
+                                          _picture = null;
+                                        }),
+                                        child: Icon(
+                                          FontAwesomeIcons.solidCircleXmark,
+                                          color: Colors.grey.shade800,
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               )
                             : SizedBox.shrink(),
@@ -218,13 +273,13 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: _onTap,
                 child: Text(
                   "Post",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: _isText.isEmpty
+                    color: _textController.text.isEmpty
                         ? AppColors.verifiedBadge.withValues(alpha: 0.5)
                         : AppColors.verifiedBadge,
                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:threads/features/home/view_models/thread_vm.dart';
 import 'package:threads/features/settings/view_models/settings_vm.dart';
 
 import '../../../constants/gaps.dart';
@@ -45,29 +46,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
 
               // 리스트 아이템
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return Stack(
-                      children: [
-                        Column(
+              ref.watch(threadProvider).when(
+                data: (data) {
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return Stack(
                           children: [
-                            Thread(),
-                            Gaps.v16,
-                            Divider(
-                              height: 0,
-                              thickness: 0.5,
+                            Column(
+                              children: [
+                                Thread(
+                                  thread: data[index],
+                                ),
+                                Gaps.v16,
+                                Divider(
+                                  height: 0,
+                                  thickness: 0.5,
+                                ),
+                                Gaps.v16,
+                              ],
                             ),
-                            Gaps.v16,
                           ],
-                        ),
-                      ],
-                    );
-                  },
-                  childCount: 6,
-                  // childCount: 10,
-                ),
-              ),
+                        );
+                      },
+                      childCount: data.length,
+                    ),
+                  );
+                },
+                error: (e, s) {
+                  return SliverToBoxAdapter(
+                    child: Center(
+                      child: Text("error: ${e.toString()}"),
+                    ),
+                  );
+                },
+                loading: () {
+                  return SliverToBoxAdapter(
+                    child: Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
+                  );
+                },
+              )
             ],
           )
         ],

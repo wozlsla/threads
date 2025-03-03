@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:threads/features/home/view_models/thread_vm.dart';
 import 'package:threads/features/home/views/widgets/thread.dart';
 import 'package:threads/features/settings/view_models/settings_vm.dart';
 import '../../../utils.dart';
@@ -218,15 +219,33 @@ class UserProfileScreen extends ConsumerWidget {
                                 trailing: Icon(Icons.more_vert),
                               );
                             }),
-                        ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: 3,
-                          itemBuilder: (context, index) => Thread(),
-                          separatorBuilder: (context, index) => Divider(
-                            thickness: 0.5,
-                            indent: 72,
-                          ),
-                        ),
+                        ref.watch(threadProvider).when(
+                              data: (data) => ListView.separated(
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: data.length,
+                                itemBuilder: (context, index) => Thread(
+                                  thread: data[index],
+                                ),
+                                separatorBuilder: (context, index) => Divider(
+                                  thickness: 0.5,
+                                  indent: 72,
+                                ),
+                              ),
+                              error: (e, s) {
+                                return SliverToBoxAdapter(
+                                  child: Center(
+                                    child: Text("error: ${e.toString()}"),
+                                  ),
+                                );
+                              },
+                              loading: () {
+                                return const SliverToBoxAdapter(
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              },
+                            )
                       ],
                     ),
                   ),

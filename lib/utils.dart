@@ -21,3 +21,20 @@ void showFirebaseErrorSnack(BuildContext context, Object? error) {
     ),
   );
 }
+
+String toImageURL(String imageUrl) {
+  /* "https://firebasestorage.googleapis.com/v0/b/
+        thread-25.firebasestorage.app/o/
+        threads%2FqdRNtQCfOoUIjYgaR6TQhIh52Yk1%2F1741006223239?alt=media" */
+
+  // URL이 `/`로 시작하면 제거
+  if (imageUrl.startsWith('/')) {
+    imageUrl = imageUrl.substring(1);
+  }
+
+  // Firebase Storage 프로젝트의 버킷 이름
+  const String bucket = "thread-25.firebasestorage.app";
+
+  // Firebase Storage 이미지 URL 반환
+  return "https://firebasestorage.googleapis.com/v0/b/$bucket/o/${Uri.encodeComponent(imageUrl)}?alt=media";
+}

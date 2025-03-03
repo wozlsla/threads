@@ -6,9 +6,6 @@ import 'package:threads/features/users/view_models/user_vm.dart';
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
-import '../../users/models/user_model.dart';
-import '../services/user_serviece.dart';
-
 import 'widgets/search_tile.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -23,8 +20,6 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   final _searchController = TextEditingController();
-
-  final Future<List<UserModel>> _users = UserServiece.loadUsers();
 
   @override
   Widget build(BuildContext context) {
@@ -79,22 +74,29 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       body: Column(
         children: [
           Gaps.v4,
-          ref.watch(usersProvider(_searchController.value.text)).when(
-                data: (data) => Flexible(
+          FutureBuilder(
+            future: ref
+                .watch(usersProvider.notifier)
+                .searchUsers(_searchController.value.text),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Flexible(
                   child: ListView.separated(
-                    itemCount: data.length,
+                    itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) =>
-                        SearchTile(user: data[index]),
+                        SearchTile(user: snapshot.data![index]),
                     separatorBuilder: (context, index) => Divider(
                       height: 0,
                       thickness: 0.5,
                       indent: 72,
                     ),
                   ),
-                ),
-                loading: () => const CircularProgressIndicator(),
-                error: (error, stackTrace) => Text(error.toString()),
-              )
+                );
+              } else {
+                return CircularProgressIndicator.adaptive();
+              }
+            },
+          ),
         ],
       ),
     );
