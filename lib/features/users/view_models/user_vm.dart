@@ -16,7 +16,13 @@ class UsersViewModel extends AsyncNotifier<void> {
 
   Future<List<UserModel>> searchUsers(String keyword) async {
     // print(keyword);
-    final userId = ref.read(authRepo).user!.uid;
+
+    final authUser = ref.read(authRepo).user;
+    if (authUser == null) {
+      return [];
+    }
+    final userId = authUser.uid;
+
     return _repository.searchUsers(keyword, userId);
   }
 
