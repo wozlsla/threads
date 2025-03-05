@@ -22,6 +22,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   final _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    _searchController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isDark = ref.watch(settingsProvider).darkMode;
     return Scaffold(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:threads/features/settings/view_models/settings_vm.dart';
+import 'package:threads/utils.dart';
 import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 import '../../../../common/theme/theme.dart';
@@ -56,7 +57,8 @@ class _SearchTileState extends ConsumerState<SearchTile> {
         child: CircleAvatar(
           radius: 18,
           backgroundImage: NetworkImage(
-            widget.user.profileImage,
+            getImage(),
+            // widget.user.profileImage,
           ),
         ),
       ),

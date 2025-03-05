@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:threads/features/authentication/repos/auth_repo.dart';
 import 'package:threads/features/users/models/user_model.dart';
 import 'package:threads/features/users/repos/user_repo.dart';
 
@@ -14,7 +15,9 @@ class UsersViewModel extends AsyncNotifier<void> {
   }
 
   Future<List<UserModel>> searchUsers(String keyword) async {
-    return _repository.searchUsers(keyword);
+    // print(keyword);
+    final userId = ref.read(authRepo).user!.uid;
+    return _repository.searchUsers(keyword, userId);
   }
 
   Future<void> createUser(UserCredential userCredential) async {
